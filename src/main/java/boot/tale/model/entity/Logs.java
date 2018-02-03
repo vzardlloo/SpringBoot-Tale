@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 /**
@@ -16,7 +15,9 @@ import java.time.Instant;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_logs")
+@Table(name = "t_logs",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "id")
+})
 public class Logs {
 
     // 项目主键
@@ -24,18 +25,21 @@ public class Logs {
     private Integer id;
 
     // 产生的动作
+    @NotNull
     private String action;
 
     // 产生的数据
     private String data;
 
     // 发生人id
+    @NotNull
     private Integer author_id;
 
     // 日志产生的ip
     private String ip;
 
     // 日志创建时间
+    @NotNull
     private Integer created;
 
     public Logs(String action, String data, String ip, Integer uid) {

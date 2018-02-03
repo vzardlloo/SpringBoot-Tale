@@ -5,10 +5,10 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+import org.hibernate.validator.valuehandling.UnwrapValidatedValue;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -17,19 +17,23 @@ public class Comments {
 
     // comment表主键
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer coid;
     //内容表主键,关联字段
-    private Integer cid;
+    @NotNull
+    private Integer cid = 0;
     //评论生成时的GMT unix时间戳
+    @NotNull
     private Integer created;
 
     @NotEmpty(message = "请输入评论作者")
     @Length(max = 30,message = "姓名过长")
     private String author;
     //评论所属用户id
-    private Integer author_id;
+
+    private Integer author_id = 0;
     //评论所属内容的作者id
-    private Integer owner_id;
+    private Integer owner_id = 0;
     //评论者邮件
     @NotEmpty(message = "请输入电子邮箱")
     @Email(message = "请输入正确的邮箱格式")
@@ -40,7 +44,7 @@ public class Comments {
     //评论者ip地址
     private String ip;
     //评论者客户端
-    private String agnet;
+    private String agent;
 
     @NotEmpty(message = "请输入评论内容")
     @Length(max = 2000,message = "请输入%d字符以内的评论")
@@ -50,7 +54,7 @@ public class Comments {
     //评论状态
     private String status;
     //父级评论
-    private Integer parent;
+    private Integer parent = 0;
 
 
 }

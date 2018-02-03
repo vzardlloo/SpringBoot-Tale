@@ -2,15 +2,14 @@ package boot.tale.model.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "t_options")
-public class OPtions {
+@Table(name = "t_options",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
+public class Options {
 
     // 配置名称
     @Id
