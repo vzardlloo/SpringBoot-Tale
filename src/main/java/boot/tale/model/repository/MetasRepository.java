@@ -21,5 +21,7 @@ public interface MetasRepository extends JpaRepository<Metas,Integer>{
 
     Metas findByMid(Integer mid);
 
+    long countByType(String type);
+
 
 }

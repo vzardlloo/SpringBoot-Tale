@@ -11,7 +11,7 @@ import java.util.List;
 public class Archive {
 
     private String          data_str;
-    private Date            data;
+    private Date date;
     private String          count;
     private List<Contents>  articles;
 

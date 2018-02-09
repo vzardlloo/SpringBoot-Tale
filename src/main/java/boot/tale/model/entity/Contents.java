@@ -2,21 +2,21 @@ package boot.tale.model.entity;
 
 import boot.tale.kit.ConstKit;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Data
+
 @Entity
 @Table(name = "t_contents",uniqueConstraints = {
         @UniqueConstraint(columnNames = "cid"),
         @UniqueConstraint(columnNames = "slug")
 })
+@Setter
 public class Contents {
     // 主键
     @Id
@@ -60,4 +60,73 @@ public class Contents {
     private Boolean allowComment = true;
     //是否允许出现在聚合中
     private Boolean allowFeed;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getCid() {
+        return cid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public Integer getCreated() {
+        return created;
+    }
+
+    public Integer getModified() {
+        return modified;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public Integer getHits() {
+        return hits;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getFmtType() {
+        return fmtType;
+    }
+
+    public String getThumbImg() {
+        return thumbImg;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public Integer getCommentsNum() {
+        return commentsNum;
+    }
+
+    public Boolean getAllowComment() {
+        return allowComment;
+    }
+
+    public Boolean getAllowFeed() {
+        return allowFeed;
+    }
 }

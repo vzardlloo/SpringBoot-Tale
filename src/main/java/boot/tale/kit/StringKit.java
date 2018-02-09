@@ -17,7 +17,16 @@ public class StringKit {
         return null != str && !"".equals(str.trim());
     }
 
-
+    public static String rand(int size) {
+        StringBuilder num = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            double a = Math.random() * 9.0D;
+            a = Math.ceil(a);
+            int randomNum = (new Double(a)).intValue();
+            num.append(randomNum);
+        }
+        return num.toString();
+    }
 
 
 

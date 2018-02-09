@@ -55,7 +55,7 @@ public class SQLiteDialect extends Dialect {
   */
 
     public boolean hasDataTypeInIdentityColumn() {
-        return false; // As specify in NHibernate dialect
+        return true; // As specify in NHibernate dialect
     }
 
   /*
@@ -132,7 +132,7 @@ public class SQLiteDialect extends Dialect {
     }
 
     public boolean supportsOuterJoinForUpdate() {
-        return false;
+        return true;
     }
 
     public String getDropForeignKeyString() {

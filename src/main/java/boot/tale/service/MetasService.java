@@ -143,6 +143,18 @@ public class MetasService {
         }
     }
 
+    public void saveMetas(Integer cid, String names, String type) {
+        if (null == cid) {
+            throw new TaleException("项目关联id不可为空");
+        }
+        if (StringKit.isNotBlank(names, type)) {
+            String[] nameArr = names.split(",");
+            for (String name : nameArr) {
+                this.saveOrUpdate(cid, name, type);
+            }
+        }
+    }
+
 
     /**
      * 从metas里移除name
