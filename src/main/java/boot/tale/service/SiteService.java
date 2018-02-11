@@ -1,8 +1,9 @@
 package boot.tale.service;
 
-import boot.tale.configuration.DataSourseConfiguration;
+import boot.tale.configuration.DataSourceConfiguration;
 import boot.tale.controller.admin.AttachController;
 import boot.tale.exception.TaleException;
+import boot.tale.extension.Theme;
 import boot.tale.kit.*;
 import boot.tale.model.dto.*;
 import boot.tale.model.entity.*;
@@ -17,7 +18,6 @@ import org.springframework.util.DigestUtils;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -206,7 +206,7 @@ public class SiteService {
             String filePath = "upload/" + DateKit.toString(new Date(), "yyyyMMddHHmmss") + "_" + StringKit.rand(8) + ".db";
             String cp = AttachController.CLASSPATH + filePath;
             Files.createDirectories(Paths.get(cp));
-            Files.copy(Paths.get(DataSourseConfiguration.DB_PATH), Paths.get(cp));
+            Files.copy(Paths.get(DataSourceConfiguration.DB_PATH), Paths.get(cp));
             backResponse.setSql_path("/" + filePath);
             //
             new Timer().schedule(new TimerTask() {
@@ -220,11 +220,85 @@ public class SiteService {
         return backResponse;
     }
 
+    /**
+     * 获取标签分类列表
+     *
+     * @param searchType
+     * @param type
+     * @param limit
+     * @return
+     */
     public List<Metas> getMetas(String searchType, String type, int limit) {
+        if (StringKit.isBlank(searchType) || StringKit.isBlank(type)) {
+            return Theme.Empty;
+        }
 
+        if (limit < 1 || limit > ConstKit.MAX_POSTS) {
+            limit = 10;
+        }
+        //获取最新的项目
+        if (Types.RECENT_META.equals(searchType)) {
+            return metasRepository.getLatestMetas(type, limit);
+        }
 
-        return null;
+        if (Types.RANDOM_META.equals(searchType)) {
+            return metasRepository.getRandomMetas(type, limit);
+        }
+
+        return Theme.Empty;
     }
+
+    /**
+     * 获取相邻的文章
+     *
+     * @param type    上一篇:prev| 下一篇:next
+     * @param created 当前文章创建时间
+     * @return
+     */
+    public Contents getNhContent(String type, Integer created) {
+        Contents contents = null;
+        if (Types.NEXT.equals(type)) {
+            Pageable pageable = new PageRequest(0, 1);
+            contents = contentsRepository.findByTypeAndStatusAndCreatedAfterOrderByCreatedAsc(Types.ARTICLE, Types.PUBLISH, created, pageable).getContent().get(0);
+
+        }
+
+        if (Types.PREV.equals(type)) {
+            Pageable pageable = new PageRequest(0, 1);
+            contents = contentsRepository.findByTypeAndStatusAndCreatedAfterOrderByCreatedDesc(Types.ARTICLE, Types.PUBLISH, created, pageable).getContent().get(0);
+        }
+
+        return contents;
+    }
+
+    /**
+     * 获取文章的评论
+     *
+     * @param cid   文章id
+     * @param page  页码
+     * @param limit 每条页数
+     * @return
+     */
+    public Page<Comment> getComments(Integer cid, int page, int limit) {
+        return commentsService.getComments(cid, page, limit);
+    }
+
+    /**
+     * 清除缓存
+     *
+     * @param key 缓存key
+     */
+    public void cleanCache(String key) {
+        if (StringKit.isNotBlank(key)) {
+            if ("*".equals(key)) {
+                taleCache.clean();
+            } else {
+                taleCache.del(key);
+            }
+        }
+    }
+
+
 
 
     //========util=====

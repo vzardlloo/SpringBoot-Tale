@@ -1,6 +1,7 @@
 package boot.tale.configuration;
 
 import boot.tale.kit.ConstKit;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,13 @@ import javax.sql.DataSource;
 import java.io.File;
 
 @Configuration
-public class DataSourseConfiguration {
+public class DataSourceConfiguration {
 
     public static String DB_NAME = "tale.db";
     public static String DB_PATH = ConstKit.CLASSPATH + File.separatorChar + DB_NAME;
     public static String DB_SRC = "jdbc:sqlite://" + DB_PATH;
+
+
     @Bean
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();

@@ -59,7 +59,15 @@
             <artifactId>emoji-java</artifactId>
             <version>${emoji.version}</version>
         </dependency>
-	</dependencies>
+        <!--模板引擎-->
+        <!-- https://mvnrepository.com/artifact/com.github.subchen/jetbrick-template -->
+        <dependency>
+            <groupId>com.github.subchen</groupId>
+            <artifactId>jetbrick-template</artifactId>
+            <version>2.1.5</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>

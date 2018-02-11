@@ -18,4 +18,6 @@ public class ConstKit {
 
     public static final int MAX_TITLE_COUNT = 200;
 
+    public static final int MAX_POSTS = 9999;
+
 }

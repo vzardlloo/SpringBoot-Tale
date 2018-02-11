@@ -30,4 +30,8 @@ public interface ContentsRepository extends JpaRepository<Contents,Integer> {
 
     List<Contents> findByTypeAndStatusAndCreatedIsBetweenOrderByCreatedDesc(String type, String status, int start, int end);
 
+    Page<Contents> findByTypeAndStatusAndCreatedAfterOrderByCreatedAsc(String type, String status, Integer created, Pageable pageable);
+
+    Page<Contents> findByTypeAndStatusAndCreatedAfterOrderByCreatedDesc(String type, String status, Integer created, Pageable pageable);
+
 }

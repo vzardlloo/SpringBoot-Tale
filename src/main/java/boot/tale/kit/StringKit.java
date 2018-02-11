@@ -28,6 +28,10 @@ public class StringKit {
         return num.toString();
     }
 
+    public static boolean isBlank(String str) {
+        return null == str || "".equals(str.trim());
+    }
+
 
 
 }
